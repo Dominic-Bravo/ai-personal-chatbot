@@ -6,7 +6,12 @@ from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
+# Point the client to Google Gemini's endpoint
+client = OpenAI(
+    api_key=os.getenv("OPENAI_API_KEY"),
+    base_url=os.getenv("OPENAI_BASE_URL")
+)
 
 app = FastAPI()
 
@@ -20,16 +25,15 @@ class ChatRequest(BaseModel):
 
 @app.post("/chat")
 async def chat_endpoint(request: ChatRequest):
-    # Format messages for the API
     messages = [{"role": "system", "content": "You are a helpful assistant."}]
     
-    # Add history + new message
     for msg in request.history:
         messages.append(msg)
     messages.append({"role": "user", "content": request.message})
 
+    # Use a Gemini model name here
     response = client.chat.completions.create(
-        model="gpt-4o-mini", # Fast and cheap for 2026
+        model="gemini-1.5-flash", 
         messages=messages
     )
     
