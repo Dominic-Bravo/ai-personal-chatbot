@@ -41,3 +41,40 @@ async def chat_endpoint(request: ChatRequest):
     )
     
     return {"reply": response.choices[0].message.content}
+
+# 1. Define this string with your info (change this later!)
+MY_DETAILS = """
+I am a Python Developer specializing in Django, FastAPI, and React Native.
+I am currently working on projects like 'AuthSocials' and an E-commerce backend.
+I use 'uv' for package management and 'Celery/Redis' for background tasks.
+I love building scalable backend architectures and clean APIs.
+"""
+
+
+# Add the new endpoint
+@app.post("/portfolio-chat")
+async def portfolio_chat_endpoint(request: ChatRequest):
+    # This system prompt tells the AI to BE you
+    messages = [
+        {
+            "role": "system", 
+            "content": f"You are an AI version of me. Answer questions based on these details: {MY_DETAILS}. "
+                       f"Be professional, witty, and helpful. If asked something not in the details, "
+                       f"answer as a developer would."
+        }
+    ]
+    
+    # Add history
+    for msg in request.history:
+        messages.append(msg)
+    
+    # Add user message
+    messages.append({"role": "user", "content": request.message})
+
+    # Call Gemini 2.5
+    response = client.chat.completions.create(
+        model="gemini-2.5-flash", 
+        messages=messages
+    )
+    
+    return {"reply": response.choices[0].message.content}
