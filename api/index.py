@@ -4,6 +4,8 @@ from pydantic import BaseModel
 from openai import OpenAI
 from dotenv import load_dotenv
 
+app = FastAPI()
+
 load_dotenv()
 
 # Point the client to the 2026 Google Gemini endpoint
@@ -12,7 +14,7 @@ client = OpenAI(
     base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
 )
 
-app = FastAPI()
+
 
 @app.get("/")
 def read_root():
