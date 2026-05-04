@@ -11,3 +11,9 @@
         "python-dotenv>=1.2.2",
         "uvicorn>=0.46.0",
     ]
+
+[project.scripts]
+app = "api.index:app"
+
+[tool.vercel]
+entrypoint = "api/index.py"
