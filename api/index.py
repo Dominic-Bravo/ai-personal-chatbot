@@ -17,7 +17,7 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 origins = [
     "http://localhost:5173",
     "http://localhost:3000",
-    "https://dominic-ian-bravo-my-portfolio.vercel.app/",
+    "https://dominic-ian-bravo-my-portfolio.vercel.app",
     FRONTEND_URL # This will be your live Vercel URL
 ]
 
