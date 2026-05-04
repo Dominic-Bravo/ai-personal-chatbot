@@ -3,18 +3,36 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from openai import OpenAI
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
 load_dotenv()
+
+
+# Define your authorized origins
+# Get the URL from environment variables, fallback to local for dev
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
+
+origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    FRONTEND_URL # This will be your live Vercel URL
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Point the client to the 2026 Google Gemini endpoint
 client = OpenAI(
     api_key=os.getenv("GEMINI_API_KEY"),
     base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
 )
-
-
 
 @app.get("/")
 def read_root():
