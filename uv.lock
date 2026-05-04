@@ -186,6 +186,7 @@ dependencies = [
     { name = "google-generativeai" },
     { name = "openai" },
     { name = "python-dotenv" },
+    { name = "uvicorn" },
 ]
 
 [package.metadata]
@@ -194,6 +195,7 @@ requires-dist = [
     { name = "google-generativeai", specifier = ">=0.8.6" },
     { name = "openai", specifier = ">=2.33.0" },
     { name = "python-dotenv", specifier = ">=1.2.2" },
+    { name = "uvicorn", specifier = ">=0.46.0" },
 ]
 
 [[package]]
